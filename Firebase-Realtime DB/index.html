@@ -1,0 +1,129 @@
+<html>
+
+<head>
+    <title>Firebase Real time DATABASE WEB</title>
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        //change settings for your firebase project
+          var config = {
+    apiKey: "AIzaSyAqIvSVJoknpvLJHG6Qn0om0JDfGVgJqdE",
+    authDomain: "webapp-faf2d.firebaseapp.com",
+    databaseURL: "https://webapp-faf2d.firebaseio.com",
+    projectId: "webapp-faf2d",
+    storageBucket: "webapp-faf2d.appspot.com",
+    messagingSenderId: "294281955476"
+  };
+        firebase.initializeApp(config);
+    </script>
+</head>
+
+<body>
+    <table>
+        <!--tr>
+            <td>ID: </td>
+            <td><input type="text" name="id" id="user_id"></td>
+        </tr!-->
+        <tr>
+            <td>USN </td>
+            <td><input type="text" name="id" id="usn"></td>
+        </tr>
+        <tr>
+            <td>Name </td>
+            <td><input type="text" name="user_name" id="user_name"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="button" value="Save" onclick="save_user();">
+                <input type="button" value="Update" onclick="update_user();">
+                <input type="button" value="Remove" onclick="delete_user();">
+            </td>
+        </tr>
+    </table>
+
+    <h3>List</h3>
+
+    <table id="tbl_users_list" border="1">
+        <tr>
+            <td>#ID</td>
+            <td>Name</td>
+            <td>USN</td>
+        </tr>
+    </table>
+
+    <script>
+        var tblUsers = document.getElementById('tbl_users_list');
+        //change users to other db name to create a new db.
+        //create ref for each db.
+        var databaseRef = firebase.database().ref('users/');
+        //var databaseRef = FirebaseFirestore.database().ref('/users');
+        var rowindex = 1;
+
+        databaseRef.once('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();  //gets all the child data
+
+                var row = tblUsers.insertRow(rowindex);
+                var cellId = row.insertCell(0);
+                var cellName = row.insertCell(1);
+                var usnname=row.insertCell(2); // use pointers to point to every row and print the value
+                cellId.appendChild(document.createTextNode(childKey));//can be retrived with coressponding name value pairs
+                cellName.appendChild(document.createTextNode(childData.user_name));
+                usnname.appendChild(document.createTextNode(childData.usn));
+
+                rowindex = rowindex + 1;
+
+            });
+        });
+
+        function save_user() {
+            var user_name = document.getElementById('user_name').value;
+            var usn = document.getElementById('usn').value;
+            var uid = firebase.database().ref().child('users').push().key; //random key generation
+
+            var data = {
+                user_id: uid,
+                usn:usn,
+                user_name: user_name
+            }
+
+            var updates = {};
+            updates['/users/' + usn] = data;            // + usn makes it a primary key.
+            firebase.database().ref().update(updates);
+
+            alert('success');
+
+            reload_page();
+        }
+
+        function update_user() {
+             var usn = document.getElementById('usn').value;
+            var user_name = document.getElementById('user_name').value;
+            var data = {
+                usn:usn,                    //uid can be updated here too (optional)
+                user_name: user_name
+            }
+            var updates = {};
+            updates['/users/' + usn] = data;  // updates['/users/' + uid] = data; specifying uid/usn makes it primary key 
+            firebase.database().ref().update(updates);
+            alert('success');
+            reload_page();
+        }
+
+        function delete_user() {
+            var usn = document.getElementById('usn').value;
+            firebase.database().ref().child('/users/' + usn).remove();  //(/users/something) is always the relation with db
+            alert('sucess');
+
+            reload_page();
+        }
+
+        function reload_page() {
+            window.location.reload();
+        }
+    </script>
+</body>
+
+</html>

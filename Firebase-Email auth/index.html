@@ -1,0 +1,51 @@
+<html>
+<head>
+  <title>Firebase Login</title>
+  <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+   <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="container">
+  <div class="row">
+  <div id="login_div" class="main-div col s12 col m6 offset-m3 col l6 offset-l3">
+    <h3>Firebase Web login</h3>
+    <input type="email" placeholder="Email..." id="email_field" />
+    <input type="password" placeholder="Password..." id="password_field" />
+
+    <button onclick="login()">Login to Account</button>
+    <button onclick="create();">Create Account</button>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+  <div id="user_div" class="loggedin-div">
+    <h3>Welcome User</h3>
+    <p id="user_para">Welcome to Firebase web login Example. You're currently logged in.</p>
+    <button onclick="logout()">Logout</button>
+  </div>
+</div>
+</div>
+</div>
+
+
+  <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+    apiKey: "AIzaSyAqIvSVJoknpvLJHG6Qn0om0JDfGVgJqdE",
+    authDomain: "webapp-faf2d.firebaseapp.com",
+    databaseURL: "https://webapp-faf2d.firebaseio.com",
+    projectId: "webapp-faf2d",
+    storageBucket: "webapp-faf2d.appspot.com",
+    messagingSenderId: "294281955476"
+    };
+    firebase.initializeApp(config);
+  </script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  <script src="index.js"></script>
+
+</body>
+</html>
