@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    <title>Firebase Real time DATABASE WEB</title>
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        //change settings for your firebase project
+          var config = {
+    apiKey: "AIzaSyAqIvSVJoknpvLJHG6Qn0om0JDfGVgJqdE",
+    authDomain: "webapp-faf2d.firebaseapp.com",
+    databaseURL: "https://webapp-faf2d.firebaseio.com",
+    projectId: "webapp-faf2d",
+    storageBucket: "webapp-faf2d.appspot.com",
+    messagingSenderId: "294281955476"
+  };
+        firebase.initializeApp(config);
+    </script>
+</head>
+
+<body>
+    
+    <h1> Firebase Storage</h1>
+    <input type="file" id="profile_pic" name="profile_pic"
+    accept=".jpg, .jpeg, .png">
+    <button onclick="store()">Submit</button>
+    <img id="myimg">
+</body>
+<script>
+    var storage = firebase.storage();
+    var durl,fi,storageRef;
+    var file=document.getElementById("profile_pic");
+    
+file.addEventListener('change',function(e){
+   fi=e.target.files[0];
+   
+});
+    function store()
+    {
+    // Get a reference to the storage service, which is used to create references in your storage bucket
+// Create a storage reference from our storage service
+storageRef = storage.ref('uploads/'+fi.name);
+alert(storageRef)
+   storageRef.put(fi);
+download();
+}
+function download()
+{
+    storageRef.getDownloadURL().then(function(url) {
+  // `url` is the download URL for 'images/stars.jpg'
+    alert(url)
+  // Or inserted into an <img> element:
+  var img = document.getElementById('myimg');
+  img.src = url;
+}).catch(function(error) {
+  // Handle any errors
+});
+}
+</script>
+</html>
