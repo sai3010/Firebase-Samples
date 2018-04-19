@@ -17,7 +17,13 @@
         firebase.initializeApp(config);
     </script>
 </head>
-
+<style>
+    #myimg
+    {
+        width:250px;
+        height: 250px;
+    }
+</style>
 <body>
     
     <h1> Firebase Storage</h1>
@@ -25,6 +31,7 @@
     accept=".jpg, .jpeg, .png">
     <button onclick="store()">Submit</button>
     <img id="myimg">
+    <button onclick="download()">Display Image</button>
 </body>
 <script>
     var storage = firebase.storage();
@@ -42,18 +49,16 @@ file.addEventListener('change',function(e){
 storageRef = storage.ref('uploads/'+fi.name);
 alert(storageRef)
    storageRef.put(fi);
-download();
 }
 function download()
 {
     storageRef.getDownloadURL().then(function(url) {
-  // `url` is the download URL for 'images/stars.jpg'
     alert(url)
   // Or inserted into an <img> element:
   var img = document.getElementById('myimg');
   img.src = url;
 }).catch(function(error) {
-  // Handle any errors
+  alert(error.message);
 });
 }
 </script>
